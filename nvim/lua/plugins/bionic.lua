@@ -1,0 +1,1 @@
+return {"HampusHauffman/bionic.nvim"}
