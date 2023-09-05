@@ -30,7 +30,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "wezterm"
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -79,63 +79,30 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
-    Key([mod], "space", lazy.spawn("rofi -show drun"), desc="Show app launcher"),
-    Key([mod], "semicolon", lazy.spawn("rofi -show emoji -theme emoji"), desc="Show emoji picker"),
-    Key([mod], "slash", lazy.spawn("rofi -show window"), desc="Show windows"),
+    Key([mod], "space", lazy.spawn("rofi -show drun -monitor -1"), desc="Show app launcher"),
+    Key([mod], "semicolon", lazy.spawn("rofi -show emoji -theme emoji -monitor -1"), desc="Show emoji picker"),
+    Key([mod], "slash", lazy.spawn("rofi -show window -monitor -1"), desc="Show windows"),
 ]
 
 # groups = [Group(i) for i in "123456789"]
 # Create groups
-groups = [
-    Group("🌐 Web"),
-    Group("🧑‍💻 Code"),
-    Group("» Terminal"),
-    Group("💬 Discord", matches=[Match(wm_class=["discord"])]),
-]
-for i, group in enumerate(groups):
+group_names = ['🌐 Web',"🧑‍💻 Code","» Terminal","💬 Discord" ]
+groups = []
+# groups = [Group(f"[{i+1}] {name}") for i, name in enumerate(group_names)]
+for i, group_name in enumerate(group_names):
+    new_group = Group(f"[{i+1}] {group_name}")
+    groups.append(new_group)
+
     keys.extend([
-        Key(
-            [mod],
-            str(i+1),
-            lazy.group[group.name].toscreen(),
-            desc="switch to group {}".format(group.name),
-        ),
-        Key(
-            [mod, "shift"],
-            str(i+1),
-            lazy.window.togroup(group.name, switch_group=True),
-            desc="switch to & move focused window to group {}".format(group.name),
-        ),
+        Key([mod], str(i+1), lazy.group[new_group.name].toscreen()),
+        Key([mod, 'shift'], str(i+1), lazy.window.togroup(new_group.name, switch_group = False))
+
     ])
-# for i in groups:
-#     keys.extend(
-#         [
-#             # mod1 + letter of group = switch to group
-#             Key(
-#                 [mod],
-#                 i.name,
-#                 lazy.group[i.name].toscreen(),
-#                 desc="Switch to group {}".format(i.name),
-#             ),
-#             # mod1 + shift + letter of group = switch to & move focused window to group
-#             Key(
-#                 [mod, "shift"],
-#                 i.name,
-#                 lazy.window.togroup(i.name, switch_group=True),
-#                 desc="Switch to & move focused window to group {}".format(i.name),
-#             ),
-#             # Or, use below if you prefer not to switch to that group.
-#             # # mod1 + shift + letter of group = move focused window to group
-#             # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-#             #     desc="move focused window to group {}".format(i.name)),
-#
-#         ]
-#     )
-#
+
 groups.append(
-    ScratchPad("scratchpad", [
+    ScratchPad("scratchpad", dropdowns=[
         #Define a drop down terminal
-        DropDown("term", terminal, height=0.5, width=0.8),
+        DropDown("term", terminal),
     ])
 )
 keys.extend([
@@ -191,6 +158,31 @@ screens = [
                 # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
                 # widget.StatusNotifier(),
                 widget.Systray(),
+                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+                widget.QuickExit(),
+            ],
+            24,
+            # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
+            # border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
+        ),
+    ),
+    Screen(
+        bottom=bar.Bar(
+            [
+                widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        "launch": ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
+                ),
+                # widget.TextBox("default config", name="default"),
+                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                # NB Systray is incompatible with Wayland, consider using StatusNotifier instead
+                # widget.StatusNotifier(),
                 widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
                 widget.QuickExit(),
             ],
