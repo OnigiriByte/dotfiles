@@ -1,0 +1,24 @@
+return {
+--     'nvim-telescope/telescope.nvim',
+--     tag = '0.1.2',
+--     event = "BufEnter",
+--     -- or                              , branch = '0.1.x',
+--     dependencies = {
+--         'nvim-lua/plenary.nvim',
+--         {
+--             'nvim-telescope/telescope-fzf-native.nvim',
+--             build = 'make'
+--         } },
+--     keys = function()
+--         local builtin = require('telescope.builtin')
+--         return {
+--         {'<Leader>ff', builtin.find_files, desc = "[F]ind [F]iles"},
+--         {'<Leader>fg', builtin.live_grep, desc = "[F]ind [G]rep"},
+--         {'<Leader>fo', builtin.live_grep, desc = "[F]ind [O]ldfiles"},
+--     }
+--     end
+--         ,
+--     config = function()
+--         require('telescope').load_extension('fzf')
+--     end
+}
