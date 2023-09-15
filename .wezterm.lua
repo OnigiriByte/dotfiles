@@ -7,9 +7,6 @@ local os = require 'os'
 
 -- This table will hold the configuration.
 local config = {}
-config.window_decorations = "RESIZE"
--- Disable the bell.
-config.audible_bell = "Disable"
 
 -- In newer versions of wezterm, use the config_builder which will
 -- help provide clearer error messages
@@ -18,6 +15,9 @@ if wezterm.config_builder then
 end
 
 -- This is where you actually apply your config choices
+config.window_decorations = "RESIZE"
+-- Disable the bell.
+config.audible_bell = "Disabled"
 
 -- For example, changing the color scheme:
 config.color_scheme = 'Tokyo Night Storm (Gogh)'
@@ -104,7 +104,7 @@ config.keys = {
         action = action.PaneSelect { mode = 'SwapWithActive' }
     },
 
-    { key = 'w', mods = 'LEADER', action = action.ActivateKeyTable { name = 'window_menu', one_shot = false, timeout_milliseconds = 1000 } },
+    { key = 'w', mods = 'LEADER', action = action.ActivateKeyTable { name = 'window_menu', one_shot = false, timeout_milliseconds = 400 } },
 
     -- NOTE: Workspaces
     {
@@ -240,7 +240,7 @@ config.key_tables = {
             action =
             'PopKeyTable'
         },
-        { key = 'r',      action = action.ActivateKeyTable { name = 'resize_pane', one_shot = false, replace_current = true, timeout_milliseconds = 450 } },
+        { key = 'r',      action = action.ActivateKeyTable { name = 'resize_pane', one_shot = false, replace_current = true, timeout_milliseconds = 400 } },
         { key = 'f',      action = action.ActivateKeyTable { name = 'focus_pane', one_shot = false, replace_current = true } },
         {
             key = 'h',
