@@ -14,7 +14,7 @@ return {
             ensure_installed = {
                 'astro', 'css', 'graphql', 'html', 'javascript',
                 'lua', 'nix', 'php', 'python', 'scss', 'svelte', 'tsx', 'twig',
-                'typescript', 'vim', 'vue',
+                'typescript', 'vim', 'vue', 'svelte'
             },
 
             context_commentstring = {

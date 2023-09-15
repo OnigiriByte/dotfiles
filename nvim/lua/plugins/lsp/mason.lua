@@ -22,7 +22,8 @@ return {
             "sqlls",
             "yamlls",
             "pyright",
-            "tailwindcss"
+            "tailwindcss",
+            'svelte'
 
         },
         automatic_installation = true,
